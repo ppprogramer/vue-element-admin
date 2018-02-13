@@ -6,7 +6,9 @@ const user = {
     user: '',
     status: '',
     code: '',
-    token: getToken(),
+    access_token: getToken('access_token'),
+    refresh_token: getToken('refresh_token'),
+    token_type: '',
     name: '',
     avatar: '',
     introduction: '',
@@ -20,8 +22,14 @@ const user = {
     SET_CODE: (state, code) => {
       state.code = code
     },
-    SET_TOKEN: (state, token) => {
-      state.token = token
+    SET_ACCESS_TOKEN: (state, access_token) => {
+      state.access_token = access_token
+    },
+    SET_REFRESH_TOKEN: (state, refresh_token) => {
+      state.refresh_token = refresh_token
+    },
+    SET_TOKEN_TYPE: (state, token_type) => {
+      state.token_type = token_type
     },
     SET_INTRODUCTION: (state, introduction) => {
       state.introduction = introduction
@@ -50,8 +58,10 @@ const user = {
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
           const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
+          commit('SET_ACCESS_TOKEN', data.access_token)
+          commit('SET_REFRESH_TOKEN', data.refresh_token)
+          commit('SET_TOKEN_TYPE', data.token_type)
+          setToken('access_token', response.data.access_token, response.data.expires_in)
           resolve()
         }).catch(error => {
           reject(error)
@@ -83,7 +93,7 @@ const user = {
     //   return new Promise((resolve, reject) => {
     //     commit('SET_CODE', code)
     //     loginByThirdparty(state.status, state.email, state.code).then(response => {
-    //       commit('SET_TOKEN', response.data.token)
+    //       commit('SET_ACCESS_TOKEN', response.data.token)
     //       setToken(response.data.token)
     //       resolve()
     //     }).catch(error => {
@@ -96,7 +106,7 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
+          commit('SET_ACCESS_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()
           resolve()
@@ -109,7 +119,7 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
-        commit('SET_TOKEN', '')
+        commit('SET_ACCESS_TOKEN', '')
         removeToken()
         resolve()
       })
@@ -118,7 +128,7 @@ const user = {
     // 动态修改权限
     ChangeRoles({ commit }, role) {
       return new Promise(resolve => {
-        commit('SET_TOKEN', role)
+        commit('SET_ACCESS_TOKEN', role)
         setToken(role)
         getUserInfo(role).then(response => {
           const data = response.data

@@ -3,7 +3,7 @@
  */
 
 export function isvalidUsername(str) {
-  const valid_map = ['admin', 'editor','1026039774@qq.com']
+  const valid_map = ['admin', 'editor', '1026039774@qq.com']
   return valid_map.indexOf(str.trim()) >= 0
 }
 
