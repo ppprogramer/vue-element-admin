@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -26,11 +26,13 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (res.code !== 0) {
+    if (res.code === -1) {
       Message({
         message: res.message,
         type: 'cw请求失败了'
       })
+    } else if (res.code === 10010) {
+      removeToken('access_token')
     }
     return response
   },
