@@ -26,3 +26,13 @@ export function getUserInfo(token) {
   })
 }
 
+export function refreshToken(refresh_token) {
+  const data = {
+    refresh_token
+  }
+  return request({
+    url: 'api/auth/refreshToken',
+    method: 'post',
+    data
+  })
+}

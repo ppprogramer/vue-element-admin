@@ -1,4 +1,4 @@
-import { loginByUsername, logout, getUserInfo } from '@/api/login'
+import { loginByUsername, logout, getUserInfo, refreshToken } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -62,6 +62,7 @@ const user = {
           commit('SET_REFRESH_TOKEN', data.refresh_token)
           commit('SET_TOKEN_TYPE', data.token_type)
           setToken('access_token', response.data.access_token, response.data.expires_in)
+          setToken('refresh_token', response.data.refresh_token, response.data.expires_in + 600)
           resolve()
         }).catch(error => {
           reject(error)
@@ -81,6 +82,25 @@ const user = {
           commit('SET_NAME', data.name)
           commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    RefreshToken({ commit }) {
+      const token = getToken('refresh_token')
+      return new Promise((resolve, reject) => {
+        refreshToken(token).then(response => {
+          const data = response.data
+          removeToken('access_token')
+          removeToken('refresh_token')
+          commit('SET_ACCESS_TOKEN', data.access_token)
+          commit('SET_REFRESH_TOKEN', data.refresh_token)
+          commit('SET_TOKEN_TYPE', data.token_type)
+          setToken('access_token', response.data.access_token, response.data.expires_in)
+          setToken('refresh_token', response.data.refresh_token, response.data.expires_in + 600)
+          resolve()
         }).catch(error => {
           reject(error)
         })
