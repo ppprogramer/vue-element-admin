@@ -38,3 +38,11 @@ export function updateArticle(data) {
     data
   })
 }
+
+export function articleIndex(data) {
+  return request({
+    url: '/api/article',
+    method: 'get',
+    params: data
+  })
+}

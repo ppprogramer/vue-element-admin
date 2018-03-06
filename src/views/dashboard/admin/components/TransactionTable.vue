@@ -42,7 +42,6 @@ export default {
   methods: {
     fetchData() {
       fetchList().then(response => {
-        console.log(response.data.list)
         this.list = response.data.list.slice(0, 7)
       })
     }

@@ -132,6 +132,19 @@ export const asyncRouterMap = [
   },
 
   {
+    path: '/article',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: { roles: ['admin', 'edior'] },
+    children: [{
+      path: 'index',
+      component: _import('article/index'),
+      name: 'articleList',
+      meta: { title: 'article', icon: 'lock', role: ['admin', 'editor'] }
+    }]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table/complex-table',

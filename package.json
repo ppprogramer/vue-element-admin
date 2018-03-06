@@ -25,6 +25,8 @@
     "jsonlint": "1.6.2",
     "jszip": "3.1.5",
     "mockjs": "1.0.1-beta3",
+    "moment": "^2.21.0",
+    "moment-timezone": "^0.5.14",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "screenfull": "3.3.2",
