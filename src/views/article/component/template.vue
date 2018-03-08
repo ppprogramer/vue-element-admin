@@ -129,7 +129,7 @@ import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，ele
 import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { validateURL } from '@/utils/validate'
-import { fetchArticle } from '@/api/article'
+import { articleShow, articleEdit } from '@/api/article'
 import { userSearch } from '@/api/remoteSearch'
 
 const defaultForm = {
@@ -207,14 +207,44 @@ export default {
   },
   created() {
     if (this.isEdit) {
-      this.fetchData()
+      this.editInit()
     } else {
       this.postForm = Object.assign({}, defaultForm)
     }
   },
   methods: {
-    fetchData() {
-      fetchArticle().then(response => {
+    editInit() {
+      this.loading = true
+      articleShow({ id: this.$route.query.id }).then(response => {
+        if (response.data.code === 0) {
+          this.postForm = response.data.data
+          this.loading = false
+        } else if (response.data.code === -1) {
+          this.$notify({
+            title: '警告',
+            message: response.data.msg,
+            type: 'warning'
+          })
+          this.$router.back(-1)
+        }
+      })
+    },
+    editPost() {
+      articleEdit({ id: this.$route.query.id }).then(response => {
+        if (response.data.code === 0) {
+          this.form = {
+            title: response.data.data.title,
+            content: response.data.data.content
+          }
+          this.loading = false
+        } else if (response.data.code === -1) {
+          this.$notify({
+            title: '警告',
+            message: response.data.msg,
+            type: 'warning'
+          })
+          this.$router.back(-1)
+        }
         this.postForm = response.data
       }).catch(err => {
         this.fetchSuccess = false

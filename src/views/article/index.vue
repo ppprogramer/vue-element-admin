@@ -81,6 +81,9 @@ export default{
     detail(row) {
       this.$router.push({ path: '/article/show', query: { id: row.id }})
     },
+    edit(row) {
+      this.$router.push({ path: '/article/edit', query: { id: row.id }})
+    },
     reset() {
       this.clean()
       this.search()

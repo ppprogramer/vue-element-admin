@@ -53,3 +53,9 @@ export function articleShow(data) {
     method: 'get'
   })
 }
+export function articleEdit(data) {
+  return request({
+    url: '/api/article/' + data.id,
+    method: 'patch'
+  })
+}

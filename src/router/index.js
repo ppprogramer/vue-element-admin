@@ -144,7 +144,10 @@ export const asyncRouterMap = [
     path: '/article',
     hidden: true,
     component: Layout,
-    children: [{ path: 'show', component: _import('article/show'), name: 'articleShow', meta: { title: 'articleShow', icon: 'lock', noCache: true }}]
+    children: [
+      { path: 'show', component: _import('article/show'), name: 'articleShow', meta: { title: 'articleShow', icon: 'lock', noCache: true }},
+      { path: 'edit', component: _import('article/edit'), name: 'articleEdit', meta: { title: 'articleEdit', icon: 'lock', noCache: true }}
+    ]
   },
   {
     path: '/example',
