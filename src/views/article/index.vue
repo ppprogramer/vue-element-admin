@@ -21,8 +21,15 @@
                     {{ createTime(scope.row) }}
                 </template>
             </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="detail(scope.row)">详情</el-button>
+                    <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+                </template>
+            </el-table-column>
         </el-table>
         <el-pagination
+            background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="pagination.currentPage"
@@ -71,6 +78,9 @@ export default{
         this.loading = false
       })
     },
+    detail(row) {
+      this.$router.push({ path: '/article/show', query: { id: row.id }})
+    },
     reset() {
       this.clean()
       this.search()
@@ -109,4 +119,5 @@ export default{
 .article_list{
   margin-top: 20px;
 }
+
 </style>

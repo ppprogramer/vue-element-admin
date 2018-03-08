@@ -136,14 +136,16 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     meta: { roles: ['admin', 'edior'] },
-    children: [{
-      path: 'index',
-      component: _import('article/index'),
-      name: 'articleList',
-      meta: { title: 'article', icon: 'lock', role: ['admin', 'editor'] }
-    }]
+    children: [
+      { path: 'index', component: _import('article/index'), name: 'articleList', meta: { title: 'article', icon: 'lock', role: ['admin', 'editor'] }}
+    ]
   },
-
+  {
+    path: '/article',
+    hidden: true,
+    component: Layout,
+    children: [{ path: 'show', component: _import('article/show'), name: 'articleShow', meta: { title: 'articleShow', icon: 'lock', noCache: true }}]
+  },
   {
     path: '/example',
     component: Layout,
@@ -257,6 +259,5 @@ export const asyncRouterMap = [
     component: Layout,
     children: [{ path: 'index', component: _import('i18n-demo/index'), name: 'i18n', meta: { title: 'i18n', icon: 'international' }}]
   },
-
   { path: '*', redirect: '/404', hidden: true }
 ]

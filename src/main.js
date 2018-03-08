@@ -9,7 +9,7 @@ import '@/styles/index.scss' // global css
 
 import App from './App'
 import router from './router'
-import store from './store'
+import store from './store/index.js'
 
 import i18n from './lang' // Internationalization
 import moment from 'moment-timezone'

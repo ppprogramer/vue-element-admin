@@ -46,3 +46,10 @@ export function articleIndex(data) {
     params: data
   })
 }
+
+export function articleShow(data) {
+  return request({
+    url: '/api/article/' + data.id,
+    method: 'get'
+  })
+}
